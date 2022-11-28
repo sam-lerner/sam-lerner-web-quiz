@@ -36,6 +36,10 @@ var questionBody = document.querySelector('#question-body');
 var resultText = document.querySelector('#result');
 var scoreL = document.querySelector("#score");
 var timerEl = document.getElementById("countdown");
+var quizCont = document.querySelector('#container');
+
+// Formatting page elements
+quizCont.setAttribute("style", "align: center; color: white; background: black; border: solid 2px;");
 
 // This is how questions display:
 function renderCurrentQuestion() {
