@@ -5,29 +5,49 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Sam's Web Quiz!</title>
+  <title>Sam's Web Quiz</title>
   <link rel="stylesheet" href="./Assets/css/style.css" />
 </head>
 
 <body>
   <!-- Header with current score and timer -->
   <header>
-    <p id="score">
+    <h1>
+      The great JavaScript quiz!
+    </h1>
+  </header>
+  <section id="hero">
+    <p>
+      <a href="./high-score.html">View High Scores</a>
     </p>
     <br>
     <p id="countdown">
     </p>
-  </header>
+  </section>
+  <!-- High score entry (starts hidden) -->
+  <section id="high-score" style="display:none;">
+    <h2>Thank you for playing!
+    </h2>
+    <br>
+    <p id="score"></p>
+    <br>
+    <form>
+      <p>
+        Enter your initials: <input type="text">
+        <button type="submit">Submit</button>
+      </p>
+    </form>
+  </section>
   <!-- Container for quiz Q&A, plus start button -->
-  <div id="container">
-  <button id="start-button">
-    Begin!
-  </button>
-  <h3 id="question-title"></h3>
-  <ul id="question-body">
-  </ul>
-  <h6 id="result">
-  </h6>
+  <div id="quiz-container">
+    <h3 id="question-title"></h3>
+    <ul id="question-body">
+    </ul>
+    <h6 id="result">
+    </h6>
+    <button id="start-button">
+      Begin!
+    </button>
   </div>
   <script src="./assets/javascript/script.js"></script>
 </body>

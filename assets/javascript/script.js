@@ -36,10 +36,26 @@ var questionBody = document.querySelector('#question-body');
 var resultText = document.querySelector('#result');
 var scoreL = document.querySelector("#score");
 var timerEl = document.getElementById("countdown");
-var quizCont = document.querySelector('#container');
+var quizCont = document.getElementById('quiz-container');
+var bodyCont = document.querySelector("body");
+var headCont = document.querySelector('header');
+var heroCont = document.querySelector("#hero");
+var userInitial = document.getElementById("user-initial");
+var highScore = document.getElementById("high-score");
+var winnerSheet = document.getElementById("winners");
 
 // Formatting page elements
-quizCont.setAttribute("style", "align: center; color: white; background: black; border: solid 2px;");
+bodyCont.setAttribute("style", "color: white; background:black;")
+headCont.setAttribute("style", "display: flex; justify-content: center; padding: 2% 10% 0;")
+heroCont.setAttribute("style", "display: flex; justify-content: space-between; margin: 0 2px; border: 3px solid blue; padding: 0 5%;")
+quizCont.setAttribute("style", "text-align: center; color: white; background: dark gray; margin: 10% 30%;border: 2px solid blue; padding: 0 5%;");
+questionBody.setAttribute("style", "text-align: left; padding: 1% 15%; cursor: crosshair;");
+timerEl.setAttribute("style", "float: right;");
+scoreL.setAttribute("style", "font-weight: bolder;");
+
+// On load, show starting time and score of 0
+timerEl.textContent = timeLeft + " seconds remaining";
+// scoreL.innerHTML = "Current score: " + userScore;
 
 // This is how questions display:
 function renderCurrentQuestion() {
@@ -48,6 +64,7 @@ function renderCurrentQuestion() {
     <li>${qaBank[currentQuestion].answers[1]}</li>
     <li>${qaBank[currentQuestion].answers[2]}</li>
     <li>${qaBank[currentQuestion].answers[3]}</li>`;
+
 }
 // Timer
 function countdown() {
@@ -62,27 +79,19 @@ function countdown() {
         if (timeLeft === 0) {
             //  Clear out the timer to prevent memory leaks
             clearInterval(timeInterval);
-            // Call the message
-            displayMessage()
             // Clear the timer text from the screen
             timerEl.textContent = "";
+            endGame();
         }
-    }, 500);
+    }, 1000);
 }
 
-// Function for running out of time
-function displayMessage() {
-    questionArea.innerHTML = "Time's up!";
-    questionBody.innerHTML = "";
-    scoreL.innerHTML = "Final score: " + userScore;
-}
 
-// we want to use "delegation" when dealing with eventlisteners and dynamic elemnts on the dom.
-//how delegation works is we attach the event listener directly to the dom and then filter thru it to make sure its acutally clicking on the desired target.
-
+// This is the actual start of the quiz
 startButton.addEventListener('click', function () {
     console.log("Quiz started");
-    scoreL.innerHTML = "Current score: " + userScore;
+    // userInitial.textContent = "";
+    startButton.style.display = "none";
     renderCurrentQuestion();
     countdown();
 });
@@ -95,12 +104,16 @@ function checkForAnswer(event) {
         if (event.target.textContent === qaBank[currentQuestion].correct) {
             console.log('thats the right answer')
             resultText.innerHTML = "Correct!"
-            // Points scored based on remaining time
-            userScore += timeLeft;
-            // Add 10 seconds to the counter
-            timeLeft += 10;
-            scoreL.innerHTML = "Current score: " + userScore;
-            console.log(userScore);
+            currentQuestion++;
+            // What happens if we run out of questions?
+            if (currentQuestion < qaBank.length) {
+                renderCurrentQuestion();
+                // Add 10 seconds to the counter
+                timeLeft += 10;
+            }
+            else {
+                endGame();
+            }
 
             //Wrong answer
         } else {
@@ -111,7 +124,50 @@ function checkForAnswer(event) {
             }
         }
 
-        currentQuestion++;
-        renderCurrentQuestion();
     }
+}
+// End of game housekeeping
+function endGame() {
+    userScore = +timeLeft;
+    console.log("Final score: " + userScore);
+    scoreL.innerHTML = "Final score: " + userScore;
+    questionBody.innerHTML = "";
+    resultText.innerHTML = "";
+    clearInterval(timeLeft);
+    timerEl.textContent = "";
+    quizCont.style.display = "none";
+    timerEl.style.display = "none";
+    highScore.setAttribute("style", "text-align: center; color: white; background: dark gray; margin: 10% 30%;border: 2px solid blue; padding: 0 5%;");
+}
+// Entry for high score form
+function storeScore(event) {
+    event.preventDefault();
+    console.log("Starting storeScore")
+    if (userInitial.value === "") {
+        alert("Please enter initials!");
+        return;
+    }
+
+
+    // Store score in local storage
+    var savedScore = localStorage.getItem("High Score");
+    var scoresArray;
+
+    if (savedScore === null) {
+        scoresArray = [];
+    } else {
+        scoresArray = JSON.parse(savedScore);
+    }
+
+    var currentScore = {
+        initials: userInitial.value,
+        score: userScore.textContent
+    };
+    scoresArray.push(savedScore);
+    console.log(savedScore);
+
+    // Local set
+    var scoreString = JSON.stringify(scoresArray);
+    window.localStorage.setItem("High Score");
+    window.open("./score-entry.html");
 }
