@@ -31,6 +31,7 @@ var userScore = 0;
 var currentQuestion = 0;
 var timeLeft = 30;
 var startButton = document.querySelector('#start-button');
+var submitButton = document.querySelector('#submit-button');
 var questionArea = document.querySelector('#question-title');
 var questionBody = document.querySelector('#question-body');
 var resultText = document.querySelector('#result');
@@ -90,7 +91,7 @@ function countdown() {
 // This is the actual start of the quiz
 startButton.addEventListener('click', function () {
     console.log("Quiz started");
-    // userInitial.textContent = "";
+    userInitial.textContent = "";
     startButton.style.display = "none";
     renderCurrentQuestion();
     countdown();
@@ -139,35 +140,42 @@ function endGame() {
     timerEl.style.display = "none";
     highScore.setAttribute("style", "text-align: center; color: white; background: dark gray; margin: 10% 30%;border: 2px solid blue; padding: 0 5%;");
 }
-// Entry for high score form
-function storeScore(event) {
-    event.preventDefault();
-    console.log("Starting storeScore")
-    if (userInitial.value === "") {
-        alert("Please enter initials!");
-        return;
+
+// Submit button
+submitButton.addEventListener('click', function () {
+    console.log("Submitted");
+
+    // Entry for high score form
+    function storeScore(event) {
+        event.preventDefault();
+        console.log("Starting storeScore")
+        if (userInitial.value === "") {
+            alert("Please enter initials!");
+            return;
+        }
+
+
+        // Retrieve score from local storage
+        // var savedScore = localStorage.getItem("High Score");
+        // var scoresArray;
+
+        // if (savedScore === null) {
+        //     scoresArray = [];
+        // } else {
+        //     scoresArray = JSON.parse(savedScore);
+        // }
+
+        var currentScore = {
+            initials: userInitial.value,
+            score: userScore.textContent
+        };
+        // scoresArray.push(savedScore);
+        console.log(savedScore);
+
+        // Local set
+        // var scoreString = JSON.stringify(scoresArray);
+        localStorage.setItem("High Score", JSON.stringify(currentScore));
+
     }
-
-
-    // Store score in local storage
-    var savedScore = localStorage.getItem("High Score");
-    var scoresArray;
-
-    if (savedScore === null) {
-        scoresArray = [];
-    } else {
-        scoresArray = JSON.parse(savedScore);
-    }
-
-    var currentScore = {
-        initials: userInitial.value,
-        score: userScore.textContent
-    };
-    scoresArray.push(savedScore);
-    console.log(savedScore);
-
-    // Local set
-    var scoreString = JSON.stringify(scoresArray);
-    window.localStorage.setItem("High Score");
-    window.open("./score-entry.html");
-}
+    open("./high-score.html");
+});
