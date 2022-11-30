@@ -2,21 +2,15 @@
 
 ## Description
 
-This webpage allows users to generate a password between 8-124 characters in length. The user also has options to determine what character set they wish to include in the password:
-- Lower Case Letters
-- Upper Case Letters
-- Numbers
-- Special Characters
+This webpage hosts a five question quiz on some of the topics covered in the Bootcamp JavaScript module. The quiz is timed, and scored based on remaining time when the user answers all questions. Once the quiz is finished, the user is prompted to enter their initials. If they had one of the ten best scores, they will enter the hall of fame.
 
-At least one option must be selected. 
-
-[Password Generator](https://sam-lerner.github.io/unique-password-generator-sl// "Go to the Website!")
+[Web Quiz](https://sam-lerner.github.io/sam-lerner-web-quiz/ "Go to the Website!")
 
 ## Mock-Up
 
 The following is an animation of the expected website interaction:
 
-![website demo](./password_nav_crop.gif)
+![website demo](./assets/images/quiz-cap.gif)
 
 
 ## Installation
@@ -25,11 +19,11 @@ N/A
 
 ## Usage
 
-To begin generating a password, simply click the red Generate Password button at the bottom of the window. The script will then take you through the required prompts before displaying the final result in the mid-page box.
+Simply click the begin button in the middle of the screen to start the quiz. The timer, located in the top right corner, will begin to count down. Feedback is given as to the correctness of the answer selected, and time is deducted for wrong answers. The user may only advance once they get the question right. Once all questions are answered or time runs out, the entry form appears with the prompt for entering in initials. Clicking sumbit automatically takes the user to the high score page.
 
 ## Credits
 
-Thank you to classmate Eric Kirberger, tutor Dru Sanchez, TAs Paul Cwik and Manoli Koutouzos for their guidance with this project. Research on the Fisher-Yates method was done through [w3docs.com](https://www.w3docs.com/snippets/javascript/how-to-randomize-shuffle-a-javascript-array.html "w3docs"). Some code copied from there.
+Thank you to classmate Eric Kirberger, tutor Dru Sanchez, TAs Paul Cwik and Manoli Koutouzos for their guidance with this project. 
 
 ## License
 

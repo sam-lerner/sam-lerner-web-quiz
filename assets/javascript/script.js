@@ -29,7 +29,8 @@ var qaBank = [
 // Starting variables:
 var userScore = 0;
 var currentQuestion = 0;
-var timeLeft = 30;
+var timeLeft = 75;
+var timeInterval;
 var startButton = document.querySelector('#start-button');
 var submitButton = document.querySelector('#submit-button');
 var questionArea = document.querySelector('#question-title');
@@ -41,15 +42,15 @@ var quizCont = document.getElementById('quiz-container');
 var bodyCont = document.querySelector("body");
 var headCont = document.querySelector('header');
 var heroCont = document.querySelector("#hero");
+var highScore = document.querySelector("#high-score");
 var userInitial = document.getElementById("user-initial");
-var highScore = document.getElementById("high-score");
-var winnerSheet = document.getElementById("winners");
+
 
 // Formatting page elements
 bodyCont.setAttribute("style", "color: white; background:black;")
 headCont.setAttribute("style", "display: flex; justify-content: center; padding: 2% 10% 0;")
 heroCont.setAttribute("style", "display: flex; justify-content: space-between; margin: 0 2px; border: 3px solid blue; padding: 0 5%;")
-quizCont.setAttribute("style", "text-align: center; color: white; background: dark gray; margin: 10% 30%;border: 2px solid blue; padding: 0 5%;");
+quizCont.setAttribute("style", "text-align: center; color: white; margin: 10% 30%;border: 2px solid blue; padding: 0 5%;");
 questionBody.setAttribute("style", "text-align: left; padding: 1% 15%; cursor: crosshair;");
 timerEl.setAttribute("style", "float: right;");
 scoreL.setAttribute("style", "font-weight: bolder;");
@@ -70,14 +71,14 @@ function renderCurrentQuestion() {
 // Timer
 function countdown() {
 
-    var timeInterval = setInterval(function () {
+    timeInterval = setInterval(function () {
 
         // This line counts down the variable timeLeft
         timeLeft--;
         // This diplays the remaining time with the message
         timerEl.textContent = timeLeft + " seconds remaining";
         // This starts the displayMessage functon when time runs out.
-        if (timeLeft === 0) {
+        if (timeLeft <= 0) {
             //  Clear out the timer to prevent memory leaks
             clearInterval(timeInterval);
             // Clear the timer text from the screen
@@ -110,7 +111,7 @@ function checkForAnswer(event) {
             if (currentQuestion < qaBank.length) {
                 renderCurrentQuestion();
                 // Add 10 seconds to the counter
-                timeLeft += 10;
+                // timeLeft += 10;
             }
             else {
                 endGame();
@@ -134,7 +135,7 @@ function endGame() {
     scoreL.innerHTML = "Final score: " + userScore;
     questionBody.innerHTML = "";
     resultText.innerHTML = "";
-    clearInterval(timeLeft);
+    clearInterval(timeInterval);
     timerEl.textContent = "";
     quizCont.style.display = "none";
     timerEl.style.display = "none";
@@ -142,40 +143,52 @@ function endGame() {
 }
 
 // Submit button
-submitButton.addEventListener('click', function () {
-    console.log("Submitted");
-
-    // Entry for high score form
-    function storeScore(event) {
-        event.preventDefault();
-        console.log("Starting storeScore")
-        if (userInitial.value === "") {
-            alert("Please enter initials!");
-            return;
-        }
-
-
-        // Retrieve score from local storage
-        // var savedScore = localStorage.getItem("High Score");
-        // var scoresArray;
-
-        // if (savedScore === null) {
-        //     scoresArray = [];
-        // } else {
-        //     scoresArray = JSON.parse(savedScore);
-        // }
-
+submitButton.addEventListener('click', function (event) {
+    event.preventDefault();
+    if (userInitial.value === "") {
+        alert("Please enter initials!");
+        return;
+    }
+    else {
+        console.log("Submitted");
+        console.log(userScore);
+        console.log(userInitial.value)
         var currentScore = {
             initials: userInitial.value,
-            score: userScore.textContent
+            score: userScore
         };
-        // scoresArray.push(savedScore);
-        console.log(savedScore);
 
-        // Local set
-        // var scoreString = JSON.stringify(scoresArray);
-        localStorage.setItem("High Score", JSON.stringify(currentScore));
+        setLocalStorage(currentScore);
 
+        window.location.href = './high-score.html'
     }
-    open("./high-score.html");
 });
+// Entry for high score form
+function storeScore(event) {
+    console.log("Starting storeScore")
+
+
+
+    console.log(savedScore);
+}
+
+function getLocalStorage() {
+    return JSON.parse(localStorage.getItem('High Score')) || [];
+}
+
+function setLocalStorage(elementToAdd) {
+    var currentStorage = getLocalStorage(); // be a populated array or an empty array
+    currentStorage.push(elementToAdd); // currentstorage variable now has all the new data added to it
+    console.log(currentStorage)
+    currentStorage.sort(function (a, b) {
+        return b.score - a.score;
+    });
+    console.log(currentStorage)
+    if (currentStorage.length > 10) {
+        //before we delete old scores lets first sort and then we remove lowest element
+        currentStorage.pop();
+        console.log(currentStorage)
+    }
+    localStorage.setItem('High Score', JSON.stringify(currentStorage));
+}
+

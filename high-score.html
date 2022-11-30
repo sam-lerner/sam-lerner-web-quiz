@@ -3,33 +3,35 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Quiz High Score Page</title>
-  <link rel="stylesheet" href="./Assets/css/style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Quiz High Score Page</title>
+    <link rel="stylesheet" href="./Assets/css/style.css" />
 </head>
 
 <body>
-  <!-- Header with current score and timer -->
-  <header>
-    <h1>
-     Sam's Quiz Hall of Fame
-    </h1>
-  </header>
-  <section id="hero">
-    <p>
-      <a href="./index.html">Back to main</a>
-    </p>
-  </section>
-  <!-- High score entry (starts hidden) -->
-  <section id="winners">
-    <h2>Top scores:
-    </h2>
-    <br>
-   <!-- A list will go here, pulling from the memory -->
-  </section>
-  <script src="./assets/javascript/script.js"></script>
+    <!-- Header with current score and timer -->
+    <header>
+        <h1>
+            Sam's Quiz Hall of Fame
+        </h1>
+    </header>
+    <section id="hero">
+        <p>
+            <a href="./index.html">Back to main</a>
+        </p>
+    </section>
+    <!-- High score entry (starts hidden) -->
+    <section id="winners">
+        <h2>Top scores:
+        </h2>
+        <br>
+        <!-- A list will go here, pulling from the memory -->
+        <ol id="top-ten">
+        </ol>
+    </section>
+    <script src="./assets/javascript/score.js"></script>
 </body>
 
 </html>
