@@ -110,8 +110,6 @@ function checkForAnswer(event) {
             // What happens if we run out of questions?
             if (currentQuestion < qaBank.length) {
                 renderCurrentQuestion();
-                // Add 10 seconds to the counter
-                // timeLeft += 10;
             }
             else {
                 endGame();
